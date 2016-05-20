@@ -16,7 +16,7 @@ Nj <- Nj %>% separate(DATE, sep=4, c("year","month"))
 
 
 daily<- daily %>% separate(DATE, sep=4, c("year","month"))
-daily<- daily %>% separate(month, sep=2, c("month","extra"))
+daily<- daily %>% separate(month, sep=2, c("month","date"))
 
 # interested in 2012 alone and averages from 1893 until 2012
 SB <- SB %>% filter(MMXT!="-9999")
@@ -93,3 +93,8 @@ ggplot(betweenProj, aes(month, EMNT/10, color=year, shape=year))+
 ggsave("minDaily.png",dpi=300)
 
 # work on Daily temperatures
+
+daily <- daily %>% filter(year=="2008"|year=="2012")
+
+dailyM <- daily %>% group_by(year) %>% summarize(hot=count(TMAX>30))
+
