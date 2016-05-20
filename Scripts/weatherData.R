@@ -7,11 +7,16 @@ library(stringr)
 # data from NOAA in IN. North Judson for precip and South Bend for temp
 SB <- read.csv("southBendWeather.csv")
 Nj <- read.csv("northJudsonWeather.csv")
+daily <- read.csv("SBDaily.csv")
 
 # fix the date column into usable month and year column for both
 SB<- SB %>% separate(DATE, sep=4, c("year","month"))
 SB<- SB %>% separate(month, sep=2, c("month","extra"))
 Nj <- Nj %>% separate(DATE, sep=4, c("year","month"))
+
+
+daily<- daily %>% separate(DATE, sep=4, c("year","month"))
+daily<- daily %>% separate(month, sep=2, c("month","extra"))
 
 # interested in 2012 alone and averages from 1893 until 2012
 SB <- SB %>% filter(MMXT!="-9999")
@@ -86,3 +91,5 @@ ggplot(betweenProj, aes(month, EMNT/10, color=year, shape=year))+
   scale_color_manual(values = c("black", "gray50"))+
   labs(y="Min Daily Temp (C)", x="Month")
 ggsave("minDaily.png",dpi=300)
+
+# work on Daily temperatures
