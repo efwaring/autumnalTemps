@@ -87,8 +87,7 @@ ggplot(data=plantsM_leaf, aes(monthf, n, color=species,
                      values = c("black", "gray50"))+
   scale_fill_manual(name="Species",
                     values = c("black", "gray50"))+
-  #labs(y=expression(paste(italic(A[amb]),
-  #                        " (", mu * mol %.% m^{-2} %.% s^{-1}, ")")))+
+  labs(y="Leaf N (%)")+
   labs(x=NULL)+
   themeopts+
   theme(legend.text=element_text(face="italic"))
@@ -118,8 +117,23 @@ ggplot(data=plantsM, aes(monthf, j, color=species,
                      values = c("black", "gray50"))+
   scale_fill_manual(name="Species",
                     values = c("black", "gray50"))+
-  #labs(y=expression(paste(italic(A[amb]),
-  #                        " (", mu * mol %.% m^{-2} %.% s^{-1}, ")")))+
+  labs(y=expression(paste(italic(J[max]),
+                          " (", mu * mol %.% m^{-2} %.% s^{-1}, ")")))+
+  labs(x=NULL)+
+  themeopts+
+  theme(legend.text=element_text(face="italic"))
+
+# vcmax
+ggplot(data=plantsM, aes(monthf, v, color=species, 
+                         fill=species)) +
+  geom_pointrange(aes(ymin=v-vsd,
+                      ymax=v+vsd), size=0.75)+
+  scale_color_manual(name="Species",
+                     values = c("black", "gray50"))+
+  scale_fill_manual(name="Species",
+                    values = c("black", "gray50"))+
+  labs(y=expression(paste(italic(V[cmax]),
+                          " (", mu * mol %.% m^{-2} %.% s^{-1}, ")")))+
   labs(x=NULL)+
   themeopts+
   theme(legend.text=element_text(face="italic"))
