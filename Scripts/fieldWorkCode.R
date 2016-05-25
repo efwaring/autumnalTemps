@@ -32,6 +32,8 @@ anova(c)
 
 
 # figures
+source("theme-opts.r")
+source("multiplot.r")
 
 
 # first select for varibles that had 8 replicates
