@@ -10,10 +10,6 @@ plants12$species <- factor(plants12$spp,
                            labels=c("C. stricta", "P. arundinacea"))
 plants12$monthf <- factor(plants12$month, labels=c("May","July", "October"))
 
-# convert protein data to area basis
-plants12$LMA <- as.numeric(plants12$LMA)
-plants12$pro_area <- plants12$ug.gfw_pr * plants12$LMA
-
 # convert totN from mass base to area base
 plants12$Na = plants12$LMA * plants12$totN
 
@@ -28,22 +24,18 @@ anova(v)
 j <-lme(jmax ~ spp*month, random=~1|indi, data=plants12, na.action=na.omit)
 anova(j)
 
-N <-lme(totN ~ spp*month, random=~1|indi, data=plants12, na.action=na.omit)
-anova(N)
+
 
 c <-lme(ce ~ spp*month, random=~1|indi, data=plants12, na.action=na.omit)
 anova(c)
 
-c13 <-lme(C13 ~ spp*month, random=~1|indi, data=plants12, na.action=na.omit)
-anova(c13)
 
 
 # figures
 
 
 # first select for varibles that had 8 replicates
-plants12Fig <-plants12 %>% select(species, monthf, amba, vcmax, jmax, ce,
-                                PNUE)
+plants12Fig <-plants12 %>% select(species, monthf, amba, vcmax, jmax, ce)
 plants12Fig <- na.omit(plants12Fig)
 
 plantsM <- plants12Fig %>% group_by(monthf, species) %>%
@@ -54,18 +46,11 @@ plantsM <- plants12Fig %>% group_by(monthf, species) %>%
             j=mean(jmax),
             jsd=sd(jmax),
             c=mean(ce),
-            csd=sd(ce),
-            p=mean(PNUE),
-            psd=sd(PNUE))
-# selecting out varibles with 12 replicates
-plantsM_leaf <- plants12 %>% group_by(monthf, species) %>%
-  summarize(n=mean(totN),
-            nsd=sd(totN),
-            c13=mean(C13),
-            c13sd=sd(C13))
+            csd=sd(ce))
+
 
 # amb A
-ggplot(data=plantsM, aes(monthf, a, color=species, 
+Aamb <- ggplot(data=plantsM, aes(monthf, a, color=species, 
                        fill=species)) +
   geom_pointrange(aes(ymin=a-asd,
                       ymax=a+asd), size=0.75)+
@@ -76,40 +61,30 @@ ggplot(data=plantsM, aes(monthf, a, color=species,
   labs(y=expression(paste(italic(A[amb]),
                           " (", mu * mol %.% m^{-2} %.% s^{-1}, ")")))+
   labs(x=NULL)+
+  annotate("text", label = "A", x = .6, y = 19.5, size = 12) +
   themeopts+
-  theme(legend.text=element_text(face="italic"))
-# total N
-ggplot(data=plantsM_leaf, aes(monthf, n, color=species, 
+  theme(legend.position="none")+
+  panel_border(colour="black") 
+# CE
+ce <- ggplot(data=plantsM, aes(monthf, c, color=species, 
                          fill=species)) +
-  geom_pointrange(aes(ymin=n-nsd,
-                      ymax=n+nsd), size=0.75)+
+  geom_pointrange(aes(ymin=c-csd,
+                      ymax=c+csd), size=0.75)+
   scale_color_manual(name="Species",
                      values = c("black", "gray50"))+
   scale_fill_manual(name="Species",
                     values = c("black", "gray50"))+
-  labs(y="Leaf N (%)")+
+  scale_y_continuous(expression(CE ~ ( mu * mol %.% m^{-2} %.% s^{-1} ) ) )  +
   labs(x=NULL)+
+  annotate("text", label = "B", x = .6, y = .11, size = 12) +
   themeopts+
-  theme(legend.text=element_text(face="italic"))
+  theme(legend.position="none")+
+  panel_border(colour="black") 
 
-#C13
 
-ggplot(data=plantsM_leaf, aes(monthf, c13, color=species, 
-                              fill=species)) +
-  geom_pointrange(aes(ymin=n-nsd,
-                      ymax=n+nsd), size=0.75)+
-  scale_color_manual(name="Species",
-                     values = c("black", "gray50"))+
-  scale_fill_manual(name="Species",
-                    values = c("black", "gray50"))+
-  #labs(y=expression(paste(italic(A[amb]),
-  #                        " (", mu * mol %.% m^{-2} %.% s^{-1}, ")")))+
-  labs(x=NULL)+
-  themeopts+
-  theme(legend.text=element_text(face="italic"))
 
 # jmax
-ggplot(data=plantsM, aes(monthf, j, color=species, 
+jmax <- ggplot(data=plantsM, aes(monthf, j, color=species, 
                               fill=species)) +
   geom_pointrange(aes(ymin=j-jsd,
                       ymax=j+jsd), size=0.75)+
@@ -117,14 +92,16 @@ ggplot(data=plantsM, aes(monthf, j, color=species,
                      values = c("black", "gray50"))+
   scale_fill_manual(name="Species",
                     values = c("black", "gray50"))+
-  labs(y=expression(paste(italic(J[max]),
-                          " (", mu * mol %.% m^{-2} %.% s^{-1}, ")")))+
+  scale_y_continuous(expression(J[max] ~ ( mu * mol %.% m^{-2} %.% s^{-1}
+                                           ) ) )  +
   labs(x=NULL)+
-  themeopts+
-  theme(legend.text=element_text(face="italic"))
+  annotate("text", label = "C", x = .6, y = 212, size = 12) + 
+  themeopts +
+  theme(legend.position="none")+
+  panel_border(colour="black") 
 
 # vcmax
-ggplot(data=plantsM, aes(monthf, v, color=species, 
+vcmax <- ggplot(data=plantsM, aes(monthf, v, color=species, 
                          fill=species)) +
   geom_pointrange(aes(ymin=v-vsd,
                       ymax=v+vsd), size=0.75)+
@@ -132,13 +109,15 @@ ggplot(data=plantsM, aes(monthf, v, color=species,
                      values = c("black", "gray50"))+
   scale_fill_manual(name="Species",
                     values = c("black", "gray50"))+
-  labs(y=expression(paste(italic(V[cmax]),
-                          " (", mu * mol %.% m^{-2} %.% s^{-1}, ")")))+
+  scale_y_continuous(expression(V[cmax] ~ ( mu * mol %.% m^{-2}
+                                            %.% s^{-1} ) ) )  +
   labs(x=NULL)+
+  annotate("text", label = "D", x = .6, y = 90, size = 12) +
   themeopts+
-  theme(legend.text=element_text(face="italic"))
+  theme(legend.position="none")+
+  panel_border(colour="black") 
 
-
+multiplot(Aamb, jmax, ce, vcmax, cols=2)
 
 # constants from Niinemets et al 1998
 
