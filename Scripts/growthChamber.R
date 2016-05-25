@@ -18,53 +18,6 @@ all$climateF = factor(all$climate, labels=c("N-L","H-S","H-L"))
 all$species <- factor(all$spp,
                           labels=c("C. stricta", "P. arundinacea"))
 
-# add in meosphyll conductance
-
-gm <- read.csv("GM_data.csv")
-
-gm <- gm %>% filter(point=="7") %>% mutate(climate=temp+phoper) %>% 
-  filter(climate!=35) %>% select(sample, spp, climate, trt, mesoCond)
-
-gm1<-lme(mesoCond ~ spp*trt*climate,
-          random =~1|sample,
-          data=gm)
-anova(gm1)
-
-gm=gm %>% arrange(climate) 
-gm$climateF = factor(gm$climate, labels=c("N-L","H-S","H-L"))
-gm$species <- factor(gm$spp,
-                      labels=c("C. stricta", "P. arundinacea"))
-
-gmM <- gm %>% group_by(species, climateF, trt) %>% summarize(gmsd=sd(mesoCond),
-                                                             gm=mean(mesoCond))
-
-gmM2 <- gm %>% group_by(species) %>% summarize(gmsd=sd(mesoCond),
-                                                             gm=mean(mesoCond))
-
-
-o<-c("a","b","c")
-t<-c("low","med","high")
-order2<-data.frame(order=o,trt=t)
-gmM<-merge(gmM, order2, by="trt")
-
-
-ggplot(gmM2, aes(climateF, gm, shape=order, fill=order,
-                 linetype=order))+
-  geom_pointrange(aes(ymin=gm-gmsd, ymax=gm+gmsd),
-                  position=position_dodge(width=0.5), size=1)+
-  scale_fill_manual(values=c("black",NA,"gray50"))+
-  scale_shape_manual(values=c(21,22,23))+
-  scale_linetype_manual(values=c(1,2,3))+
-  labs(y=expression(paste(italic(g[m]),
-                          " (", mmol %.% m^{-2} %.% s^{-1}, ")")))+
-  facet_grid(.~species)+
-  themeopts +
-  theme(strip.text.x = element_text(face = "italic")) +
-  theme(legend.position="none")+
-  panel_border(colour="black")+
-  scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
-
-
 
 
 # stats 
@@ -165,8 +118,7 @@ ggplot(allM, aes(climateF, netqe, shape=order, fill=order,
   scale_fill_manual(values=c("black",NA,"gray50"))+
   scale_shape_manual(values=c(21,22,23))+
   scale_linetype_manual(values=c(1,2,3))+
-  labs(y=expression(paste("Net qe"," (", mu * mol %.% m^{-2} %.% s^{-1}%.%
-                            pfd^{-1}, ")")))+
+  labs(y=expression(paste("Net qe"," (", mu * mol %.% mu * mol,")")))+
   facet_grid(.~species)+
   themeopts +
   theme(strip.text.x = element_text(face = "italic")) +
