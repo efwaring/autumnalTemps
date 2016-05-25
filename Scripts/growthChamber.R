@@ -92,28 +92,13 @@ order2<-data.frame(order=o,nTreatment=t)
 allM<-merge(allM, order2, by=c("nTreatment"))
 
 # figures for growthchamber
-# read in themeopts
+# read in themeopts and mulitplot
 source("theme-opts.R")
 
-# figure for aamb
-ggplot(allM, aes(climateF, aamb, shape=order, fill=order,
-                 linetype=order))+
-  geom_pointrange(aes(ymin=aamb-aambSD, ymax=aamb+aambSD),
-                  position=position_dodge(width=0.5), size=1)+
-  scale_fill_manual(values=c("black",NA,"gray50"))+
-  scale_shape_manual(values=c(21,22,23))+
-  scale_linetype_manual(values=c(1,2,3))+
-  labs(y=expression(paste(italic(A[amb]),
-                          " (", mu * mol %.% m^{-2} %.% s^{-1}, ")")))+
-  facet_grid(.~species)+
-  themeopts +
-  theme(strip.text.x = element_text(face = "italic")) +
-  theme(legend.position="none")+
-  panel_border(colour="black")+
-  scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
 
-ggsave("aamb.png",dpi=600)
-  
+# figures
+
+
 # fig netqe
 ggplot(allM, aes(climateF, netqe, shape=order, fill=order,
                  linetype=order))+
@@ -131,7 +116,91 @@ ggplot(allM, aes(climateF, netqe, shape=order, fill=order,
   scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
 
 
-ggsave("netqe.png", dpi=600)
+ggsave("netqeGC.png", dpi=600)
+
+
+
+# make multiplot for gc data
+# figure for aamb
+ggplot(allM, aes(climateF, aamb, shape=order, fill=order,
+                 linetype=order))+
+  geom_pointrange(aes(ymin=aamb-aambSD, ymax=aamb+aambSD),
+                  position=position_dodge(width=0.5), size=1)+
+  scale_fill_manual(values=c("black",NA,"gray50"))+
+  scale_shape_manual(values=c(21,22,23))+
+  scale_linetype_manual(values=c(1,2,3))+
+  labs(y=expression(paste(italic(A[amb]),
+                          " (", mu * mol %.% m^{-2} %.% s^{-1}, ")")))+
+  facet_grid(.~species)+
+  themeopts +
+  theme(strip.text.x = element_text(face = "italic")) +
+  theme(legend.position="none")+
+  panel_border(colour="black")+
+  scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
+ggsave("aambGC.png", dpi=600)
+
+# Ce
+
+ggplot(allM, aes(climateF, ce, shape=order, fill=order,
+                 linetype=order))+
+  geom_pointrange(aes(ymin=ce-ceSD, ymax=ce+ceSD),
+                  position=position_dodge(width=0.5), size=1)+
+  scale_fill_manual(values=c("black",NA,"gray50"))+
+  scale_shape_manual(values=c(21,22,23))+
+  scale_linetype_manual(values=c(1,2,3))+
+  labs(y=expression(paste(CE[]," (", mu * mol %.% m^{-2} %.% 
+                            s^{-1}, ")")))+
+  facet_grid(.~species)+
+  themeopts +
+  theme(strip.text.x = element_text(face = "italic")) +
+  theme(legend.position="none")+
+  panel_border(colour="black")+
+  scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
+
+ggsave("ce.png", dpi=600)
+
+# vcmax
+
+
+ggplot(allM, aes(climateF, vc, shape=order, fill=order,
+                 linetype=order))+
+  geom_pointrange(aes(ymin=vc-vcSD, ymax=vc+vcSD),
+                  position=position_dodge(width=0.5), size=1)+
+  scale_fill_manual(values=c("black",NA,"gray50"))+
+  scale_shape_manual(values=c(21,22,23))+
+  scale_linetype_manual(values=c(1,2,3))+
+  scale_y_continuous(expression(V[cmax] ~ ( mu * mol %.% m^{-2}
+                                            %.% s^{-1} ) ) )  +
+  facet_grid(.~species)+
+  themeopts +
+  theme(strip.text.x = element_text(face = "italic")) +
+  theme(legend.position="none")+
+  panel_border(colour="black")+
+  scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
+
+ggsave("vcmaxGC.png", dpi=600)
+
+#Jmax
+
+ggplot(allM, aes(climateF, j, shape=order, fill=order,
+                 linetype=order))+
+  geom_pointrange(aes(ymin=j-jSD, ymax=j+jSD),
+                  position=position_dodge(width=0.5), size=1)+
+  scale_fill_manual(values=c("black",NA,"gray50"))+
+  scale_shape_manual(values=c(21,22,23))+
+  scale_linetype_manual(values=c(1,2,3))+
+  scale_y_continuous(expression(J[max] ~ ( mu * mol %.% m^{-2}
+                                            %.% s^{-1} ) ) )  +
+  facet_grid(.~species)+
+  themeopts +
+  theme(strip.text.x = element_text(face = "italic")) +
+  theme(legend.position="none")+
+  panel_border(colour="black")+
+  scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
+
+ggsave("jmaxGC.png", dpi=600)
+
+# supplemental figures at best
 
 # fig dr
 ggplot(allM, aes(climateF, dr, shape=order, fill=order,
@@ -187,61 +256,9 @@ ggplot(allM, aes(climateF, PNUE, shape=order, fill=order,
 
 ggsave("pnue.png", dpi=600)
 
-# Ce
+# data for table 1
 
-ggplot(allM, aes(climateF, ce, shape=order, fill=order,
-                 linetype=order))+
-  geom_pointrange(aes(ymin=ce-ceSD, ymax=ce+ceSD),
-                  position=position_dodge(width=0.5), size=1)+
-  scale_fill_manual(values=c("black",NA,"gray50"))+
-  scale_shape_manual(values=c(21,22,23))+
-  scale_linetype_manual(values=c(1,2,3))+
-  labs(y=expression(paste(CE[]," (", mu * mol %.% m^{-2} %.% 
-                            s^{-1} %.% kPa^{-1}, ")")))+
-  facet_grid(.~species)+
-  themeopts +
-  theme(strip.text.x = element_text(face = "italic")) +
-  theme(legend.position="none")+
-  panel_border(colour="black")+
-  scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
+tab1 <- allM %>% select(species, nTreatment, climateF, PNUE,PNUESD, N,Nsd, 
+                        dr, drSD) 
 
-ggsave("ce.png", dpi=600)
-
-# vcmax
-
-
-ggplot(allM, aes(climateF, vc, shape=order, fill=order,
-                 linetype=order))+
-  geom_pointrange(aes(ymin=vc-vcSD, ymax=vc+vcSD),
-                  position=position_dodge(width=0.5), size=1)+
-  scale_fill_manual(values=c("black",NA,"gray50"))+
-  scale_shape_manual(values=c(21,22,23))+
-  scale_linetype_manual(values=c(1,2,3))+
-  labs(y=expression(paste(italic(V[cmax])," (", mu * mol %.% m^{-2} %.% s^{-1}, ")")))+
-  facet_grid(.~species)+
-  themeopts +
-  theme(strip.text.x = element_text(face = "italic")) +
-  theme(legend.position="none")+
-  panel_border(colour="black")+
-  scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
-
-ggsave("vcmax.png", dpi=600)
-
-#Jmax
-
-ggplot(allM, aes(climateF, j, shape=order, fill=order,
-                 linetype=order))+
-  geom_pointrange(aes(ymin=j-jSD, ymax=j+jSD),
-                  position=position_dodge(width=0.5), size=1)+
-  scale_fill_manual(values=c("black",NA,"gray50"))+
-  scale_shape_manual(values=c(21,22,23))+
-  scale_linetype_manual(values=c(1,2,3))+
-  labs(y=expression(paste(italic(J[max])," (", mu * mol %.% m^{-2} %.% s^{-1}, ")")))+
-  facet_grid(.~species)+
-  themeopts +
-  theme(strip.text.x = element_text(face = "italic")) +
-  theme(legend.position="none")+
-  panel_border(colour="black")+
-  scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
-
-ggsave("jmax.png", dpi=600)
+write.csv("table1.csv", tab1)
