@@ -62,14 +62,10 @@ anova(q)
 
 
 
-o<-c("a","b","c")
-t<-c("low","med","high")
-order2<-data.frame(order=o,nTreatment=t)
-all<-merge(all, order2, by="nTreatment")
 
 
 
-allM <- all %>% group_by(order, species, nTreatment, climateF) %>%
+allM <- all %>% group_by(nTreatment, species, nTreatment, climateF) %>%
               summarize(aambSD =sd(aamb),
                   aamb=mean(aamb),
                   ceSD =sd(ce),
@@ -90,8 +86,16 @@ allM <- all %>% group_by(order, species, nTreatment, climateF) %>%
                   N=mean(Nitrogen))
 
 
+o<-c("a","b","c")
+t<-c("low","med","high")
+order2<-data.frame(order=o,nTreatment=t)
+allM<-merge(allM, order2, by=c("nTreatment"))
 
-# fig for aamb
+# figures for growthchamber
+# read in themeopts
+source("theme-opts.R")
+
+# figure for aamb
 ggplot(allM, aes(climateF, aamb, shape=order, fill=order,
                  linetype=order))+
   geom_pointrange(aes(ymin=aamb-aambSD, ymax=aamb+aambSD),
@@ -118,13 +122,15 @@ ggplot(allM, aes(climateF, netqe, shape=order, fill=order,
   scale_fill_manual(values=c("black",NA,"gray50"))+
   scale_shape_manual(values=c(21,22,23))+
   scale_linetype_manual(values=c(1,2,3))+
-  labs(y=expression(paste("Net qe"," (", mu * mol %.% mu * mol,")")))+
+  labs(y=expression(paste("Net qe"," (", mu * mol  %.% mu * mol, " photons"^{-1} ,")")))+
   facet_grid(.~species)+
   themeopts +
   theme(strip.text.x = element_text(face = "italic")) +
   theme(legend.position="none")+
   panel_border(colour="black")+
   scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
+
+
 ggsave("netqe.png", dpi=600)
 
 # fig dr
