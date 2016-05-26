@@ -3,7 +3,7 @@ library(nlme)
 library(dplyr)
 library(tidyr)
 library(cowplot)
-library(xtable)
+
 
 
 all <- read.csv("GCdata.csv")
@@ -23,7 +23,6 @@ all$species <- factor(all$spp,
 # stats 
 
 # transformations for skewed data
-all$SLA<-log10(all$SLA)
 all$vcmax<-log10(all$vcmax)
 all$jmax<-log10(all$jmax)
 all$Nitrogen<-log10(all$Nitrogen)
@@ -258,7 +257,7 @@ ggsave("pnue.png", dpi=600)
 
 # data for table 1
 
-tab1 <- allM %>% select(species, nTreatment, climateF, PNUE,PNUESD, N,Nsd, 
+tab1 <- allM %>% select(species, nTreatment, order, climateF, PNUE,PNUESD, N,Nsd, 
                         dr, drSD) 
 
-write.csv("table1.csv", tab1)
+write.csv(tab1,"table1.csv")
