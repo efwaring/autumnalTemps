@@ -1,4 +1,10 @@
 # analysis of the 2012 field data for Waring and Holaday for AJB manuscript
+library(ggplot2)
+library(nlme)
+library(dplyr)
+library(tidyr)
+library(cowplot)
+
 
 # read in data
 plants12 <- read.csv("data2012.csv")
