@@ -3,6 +3,7 @@ library(dplyr)
 library(tidyr)
 library(xtable)
 library(stringr)
+library(cowplot)
 
 # data from NOAA in IN. North Judson for precip and South Bend for temp
 SB <- read.csv("southBendWeather.csv")
@@ -48,14 +49,14 @@ twenty08 <- SB %>% filter(year=="2008") %>% select(year, month, monMax,
 betweenProj <- bind_rows(twenty08, twenty12)
 
 ggplot(betweenProj, aes(month, monMax, color=year, shape=year))+
-  geom_point(size=2)+
+  geom_point(size=2.5)+
   scale_color_manual(values = c("black", "gray50"))+
   labs(y="Mean Max Temperature (°C)", x="Month")+
   themeopts+
   panel_border(colour="black")+
   theme(legend.position="none")
 
-ggsave("maxtemp.png",dpi=300)
+ggsave("maxtemp-fig1.png",dpi=300)
 
 ggplot(betweenProj, aes(month, monMin, color=year, shape=year))+
   geom_point(size=2)+
