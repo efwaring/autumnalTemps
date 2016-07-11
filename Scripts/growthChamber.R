@@ -14,7 +14,7 @@ all= all %>% mutate(climate=temp+phoper) %>% filter(climate!=35)
 # arrange and rename the climate column
 # give all ID as factors
 all=all %>% arrange(climate) 
-all$climateF = factor(all$climate, labels=c("N-L","H-S","H-L"))
+all$climateF = factor(all$climate, labels=c("O-L","H-S","H-L"))
 all$species <- factor(all$spp,
                           labels=c("C. stricta", "P. arundinacea"))
 
@@ -112,7 +112,7 @@ ggplot(allM, aes(climateF, netqe, shape=order, fill=order,
   theme(strip.text.x = element_text(face = "italic")) +
   theme(legend.position="none")+
   panel_border(colour="black")+
-  scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
+  scale_x_discrete(name=NULL,limits=c("O-L","H-L","H-S"))
 
 
 ggsave("netqeGC.png", dpi=600)
@@ -135,7 +135,7 @@ ggplot(allM, aes(climateF, aamb, shape=order, fill=order,
   theme(strip.text.x = element_text(face = "italic")) +
   theme(legend.position="none")+
   panel_border(colour="black")+
-  scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
+  scale_x_discrete(name=NULL,limits=c("O-L","H-L","H-S"))
 ggsave("aambGC.png", dpi=600)
 
 # Ce
@@ -154,7 +154,7 @@ ggplot(allM, aes(climateF, ce, shape=order, fill=order,
   theme(strip.text.x = element_text(face = "italic")) +
   theme(legend.position="none")+
   panel_border(colour="black")+
-  scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
+  scale_x_discrete(name=NULL,limits=c("O-L","H-L","H-S"))
 
 ggsave("ce.png", dpi=600)
 
@@ -175,7 +175,7 @@ ggplot(allM, aes(climateF, vc, shape=order, fill=order,
   theme(strip.text.x = element_text(face = "italic")) +
   theme(legend.position="none")+
   panel_border(colour="black")+
-  scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
+  scale_x_discrete(name=NULL,limits=c("O-L","H-L","H-S"))
 
 ggsave("vcmaxGC.png", dpi=600)
 
@@ -195,7 +195,7 @@ ggplot(allM, aes(climateF, j, shape=order, fill=order,
   theme(strip.text.x = element_text(face = "italic")) +
   theme(legend.position="none")+
   panel_border(colour="black")+
-  scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
+  scale_x_discrete(name=NULL,limits=c("O-L","H-L","H-S"))
 
 ggsave("jmaxGC.png", dpi=600)
 
@@ -216,7 +216,7 @@ ggplot(allM, aes(climateF, dr, shape=order, fill=order,
   theme(strip.text.x = element_text(face = "italic")) +
   theme(legend.position="none")+
   panel_border(colour="black")+
-  scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
+  scale_x_discrete(name=NULL,limits=c("O-L","H-L","H-S"))
 ggsave("dr.png", dpi=600)
 #leaf N
 ggplot(allM, aes(climateF, N, shape=order, fill=order,
@@ -232,7 +232,7 @@ ggplot(allM, aes(climateF, N, shape=order, fill=order,
   theme(strip.text.x = element_text(face = "italic")) +
   theme(legend.position="none")+
   panel_border(colour="black")+
-  scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
+  scale_x_discrete(name=NULL,limits=c("O-L","H-L","H-S"))
 
 ggsave("leafN.png", dpi=600)
 
@@ -251,7 +251,7 @@ ggplot(allM, aes(climateF, PNUE, shape=order, fill=order,
   theme(strip.text.x = element_text(face = "italic")) +
   theme(legend.position="none")+
   panel_border(colour="black")+
-  scale_x_discrete(name=NULL,limits=c("N-L","H-L","H-S"))
+  scale_x_discrete(name=NULL,limits=c("O-L","H-L","H-S"))
 
 ggsave("pnue.png", dpi=600)
 
