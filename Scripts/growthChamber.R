@@ -106,13 +106,15 @@ ggplot(allM, aes(climateF, netqe, shape=order, fill=order,
   scale_fill_manual(values=c("black",NA,"gray50"))+
   scale_shape_manual(values=c(21,22,23))+
   scale_linetype_manual(values=c(1,2,3))+
-  labs(y=expression(paste("Net qe"," (", mu * mol  %.% mu * mol, " photons"^{-1} ,")")))+
+  labs(y=expression(paste("qe"
+                          ," (", mu * mol, " CO"[2]  %.% mu * mol, " Ph"^{-1} ,")")))+
   facet_grid(.~species)+
   themeopts +
   theme(strip.text.x = element_text(face = "italic")) +
   theme(legend.position="none")+
   panel_border(colour="black")+
   scale_x_discrete(name=NULL,limits=c("O-L","H-L","H-S"))
+  
 
 
 ggsave("netqeGC.png", dpi=600)
