@@ -2,7 +2,6 @@ library(ggplot2)
 library(dplyr)
 library(tidyr)
 library(xtable)
-library(stringr)
 library(cowplot)
 
 # data from NOAA in IN. North Judson for precip and South Bend for temp
