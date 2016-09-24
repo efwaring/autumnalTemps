@@ -103,7 +103,8 @@ jmax <- ggplot(data=plantsM, aes(monthf, j, color=species,
   scale_y_continuous(expression(J[max] ~ ( mu * mol %.% m^{-2} %.% s^{-1}
                                            ) ) )  +
   labs(x=NULL)+
-  annotate("text", label = "C", x = .6, y = 212, size = 12) + 
+  
+  annotate("text", label = "D", x = .6, y = 212, size = 12) + 
   themeopts +
   theme(legend.position="none")+
   panel_border(colour="black") 
@@ -120,12 +121,12 @@ vcmax <- ggplot(data=plantsM, aes(monthf, v, color=species,
   scale_y_continuous(expression(V[cmax] ~ ( mu * mol %.% m^{-2}
                                             %.% s^{-1} ) ) )  +
   labs(x=NULL)+
-  annotate("text", label = "D", x = .6, y = 90, size = 12) +
+  annotate("text", label = "C", x = .6, y = 90, size = 12) +
   themeopts+
   theme(legend.position="none")+
   panel_border(colour="black") 
 
-multiplot(Aamb, jmax, ce, vcmax, cols=2)
+multiplot(Aamb, vcmax, ce, jmax, cols=2)
 
 # constants from Niinemets et al 1998
 
