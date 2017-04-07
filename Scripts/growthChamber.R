@@ -3,6 +3,7 @@ library(nlme)
 library(dplyr)
 library(tidyr)
 library(cowplot)
+library(lsmeans)
 
 
 
@@ -37,28 +38,69 @@ aamb<-lme(aamb ~ species*nTreatment*climateF,
           random =~1|plant_id,
           data=all)
 anova(aamb)
-c <- lme(ce ~ species*nTreatment*climateF,random =~1|plant_id,
-         data=all)
-anova(c)
-d <- lme(dr ~ species*nTreatment*climateF,random =~1|plant_id,
-         data=all)
+
+lsmeans(aamb, pairwise~climateF, adjust="tukey")
+lsmeans(aamb, pairwise~nTreatment, adjust="tukey")
+lsmeans(aamb, pairwise~species*nTreatment, adjust="tukey")
+
+print(xtable(lsmeans(aamb, pairwise~climateF, adjust="tukey")$contrasts), type='html')
+print(xtable(lsmeans(aamb, pairwise~nTreatment, adjust="tukey")$contrasts), type='html')
+print(xtable(lsmeans(aamb, pairwise~species*nTreatment, adjust="tukey")$contrasts), type='html')
+
 anova(d)
+lsmeans(d, pairwise~climateF, adjust="tukey")
+lsmeans(d, pairwise~species*climateF, adjust="tukey")
+
+print(xtable(lsmeans(d, pairwise~species*climateF, adjust="tukey")$contrasts), type='html')
+
+
+
 n <- lme(Nitrogen ~ species*nTreatment*climateF,random =~1|plant_id,
          data=all)
 anova(n)
+
+lsmeans(n, pairwise~climateF, adjust="tukey")
+lsmeans(n, pairwise~nTreatment, adjust="tukey")
+lsmeans(n, pairwise~species*climateF, adjust="tukey")
+lsmeans(n, pairwise~nTreatment*climateF, adjust="tukey")
+
+print(xtable(lsmeans(n, pairwise~climateF, adjust="tukey")$contrasts), type='html')
+print(xtable(lsmeans(n, pairwise~nTreatment, adjust="tukey")$contrasts), type='html')
+print(xtable(lsmeans(n, pairwise~climateF*nTreatment, adjust="tukey")$contrasts), type='html')
+print(xtable(lsmeans(n, pairwise~climateF*species, adjust="tukey")$contrasts), type='html')
+
+
+lsmeans(j, pairwise~species*climateF*nTreatment, adjust="tukey")
+
 v <- lme(vcmax ~ species*nTreatment*climateF,random =~1|plant_id,
          data=all)
 anova(v)
+
+lsmeans(v, pairwise~climateF, adjust="tukey")
+lsmeans(v, pairwise~nTreatment, adjust="tukey")
+
+print(xtable(lsmeans(v, pairwise~climateF, adjust="tukey")$contrasts), type='html')
+print(xtable(lsmeans(v, pairwise~nTreatment, adjust="tukey")$contrasts), type='html')
+
+
+
 j <- lme(jmax ~ species*nTreatment*climateF,random =~1|plant_id,
          data=all)
 anova(j)
-p <- lme(pnue ~ species*nTreatment*climateF,random =~1|plant_id,
-         data=all)
-anova(p)
+lsmeans(j, pairwise~climateF, adjust="tukey")
+lsmeans(j, pairwise~nTreatment, adjust="tukey")
+
+print(xtable(lsmeans(j, pairwise~climateF, adjust="tukey")$contrasts), type='html')
+print(xtable(lsmeans(j, pairwise~nTreatment, adjust="tukey")$contrasts), type='html')
+
+
+
 q <- lme(netqe ~ species*nTreatment*climateF,random =~1|plant_id,
          data=all)
 anova(q)
 
+lsmeans(q, pairwise~climateF, adjust="tukey")
+print(xtable(lsmeans(q, pairwise~climateF, adjust="tukey")$contrasts), type='html')
 
 
 
@@ -99,7 +141,7 @@ source("theme-opts.R")
 
 
 # fig netqe
-ggplot(allM, aes(climateF, netqe, shape=order, fill=order,
+qe=ggplot(allM, aes(climateF, netqe, shape=order, fill=order,
                  linetype=order))+
   geom_pointrange(aes(ymin=netqe-netqeSD, ymax=netqe+netqeSD),
                   position=position_dodge(width=0.5), size=1)+
@@ -116,14 +158,9 @@ ggplot(allM, aes(climateF, netqe, shape=order, fill=order,
   scale_x_discrete(name=NULL,limits=c("O-L","H-L","H-S"))
   
 
-
-ggsave("netqeGC.png", dpi=600)
-
-
-
 # make multiplot for gc data
 # figure for aamb
-ggplot(allM, aes(climateF, aamb, shape=order, fill=order,
+amb= ggplot(allM, aes(climateF, aamb, shape=order, fill=order,
                  linetype=order))+
   geom_pointrange(aes(ymin=aamb-aambSD, ymax=aamb+aambSD),
                   position=position_dodge(width=0.5), size=1)+
@@ -138,32 +175,32 @@ ggplot(allM, aes(climateF, aamb, shape=order, fill=order,
   theme(legend.position="none")+
   panel_border(colour="black")+
   scale_x_discrete(name=NULL,limits=c("O-L","H-L","H-S"))
-ggsave("aambGC.png", dpi=600)
 
-# Ce
-
-ggplot(allM, aes(climateF, ce, shape=order, fill=order,
+dr= ggplot(allM, aes(climateF, dr, shape=order, fill=order,
                  linetype=order))+
-  geom_pointrange(aes(ymin=ce-ceSD, ymax=ce+ceSD),
+  geom_pointrange(aes(ymin=dr-drSD, ymax=dr+drSD),
                   position=position_dodge(width=0.5), size=1)+
   scale_fill_manual(values=c("black",NA,"gray50"))+
   scale_shape_manual(values=c(21,22,23))+
   scale_linetype_manual(values=c(1,2,3))+
-  labs(y=expression(paste(CE[]," (", mu * mol %.% m^{-2} %.% 
-                            s^{-1}, ")")))+
+  labs(y=expression(paste(italic(R[d]),
+                          " (", mu * mol %.% m^{-2} %.% s^{-1}, ")")))+
   facet_grid(.~species)+
   themeopts +
   theme(strip.text.x = element_text(face = "italic")) +
   theme(legend.position="none")+
   panel_border(colour="black")+
   scale_x_discrete(name=NULL,limits=c("O-L","H-L","H-S"))
+# figures
+source("theme-opts.r")
+source("multiplot.r")
 
-ggsave("ce.png", dpi=600)
+multiplot(qe, dr, amb, cols=2)
 
 # vcmax
 
 
-ggplot(allM, aes(climateF, vc, shape=order, fill=order,
+vcmax <- ggplot(allM, aes(climateF, vc, shape=order, fill=order,
                  linetype=order))+
   geom_pointrange(aes(ymin=vc-vcSD, ymax=vc+vcSD),
                   position=position_dodge(width=0.5), size=1)+
@@ -179,11 +216,10 @@ ggplot(allM, aes(climateF, vc, shape=order, fill=order,
   panel_border(colour="black")+
   scale_x_discrete(name=NULL,limits=c("O-L","H-L","H-S"))
 
-ggsave("vcmaxGC.png", dpi=600)
 
 #Jmax
 
-ggplot(allM, aes(climateF, j, shape=order, fill=order,
+jmax <- ggplot(allM, aes(climateF, j, shape=order, fill=order,
                  linetype=order))+
   geom_pointrange(aes(ymin=j-jSD, ymax=j+jSD),
                   position=position_dodge(width=0.5), size=1)+
@@ -199,29 +235,9 @@ ggplot(allM, aes(climateF, j, shape=order, fill=order,
   panel_border(colour="black")+
   scale_x_discrete(name=NULL,limits=c("O-L","H-L","H-S"))
 
-ggsave("jmaxGC.png", dpi=600)
 
-# supplemental figures at best
-
-# fig dr
-ggplot(allM, aes(climateF, dr, shape=order, fill=order,
-                 linetype=order))+
-  geom_pointrange(aes(ymin=dr-drSD, ymax=dr+drSD),
-                  position=position_dodge(width=0.5), size=1)+
-  scale_fill_manual(values=c("black",NA,"gray50"))+
-  scale_shape_manual(values=c(21,22,23))+
-  scale_linetype_manual(values=c(1,2,3))+
-  labs(y=expression(paste(italic(R[d]),
-                          " (", mu * mol %.% m^{-2} %.% s^{-1}, ")")))+
-  facet_grid(.~species)+
-  themeopts +
-  theme(strip.text.x = element_text(face = "italic")) +
-  theme(legend.position="none")+
-  panel_border(colour="black")+
-  scale_x_discrete(name=NULL,limits=c("O-L","H-L","H-S"))
-ggsave("dr.png", dpi=600)
 #leaf N
-ggplot(allM, aes(climateF, N, shape=order, fill=order,
+leafN <- ggplot(allM, aes(climateF, N, shape=order, fill=order,
                  linetype=order))+
   geom_pointrange(aes(ymin=N-Nsd, ymax=N+Nsd),
                   position=position_dodge(width=0.5), size=1)+
@@ -236,30 +252,5 @@ ggplot(allM, aes(climateF, N, shape=order, fill=order,
   panel_border(colour="black")+
   scale_x_discrete(name=NULL,limits=c("O-L","H-L","H-S"))
 
-ggsave("leafN.png", dpi=600)
+multiplot(vcmax, jmax, leafN, cols=2)
 
-#pnue
-
-ggplot(allM, aes(climateF, PNUE, shape=order, fill=order,
-                 linetype=order))+
-  geom_pointrange(aes(ymin=PNUE-PNUESD, ymax=PNUE+PNUESD),
-                  position=position_dodge(width=0.5), size=1)+
-  scale_fill_manual(values=c("black",NA,"gray50"))+
-  scale_shape_manual(values=c(21,22,23))+
-  scale_linetype_manual(values=c(1,2,3))+
-  labs(y=expression(paste(PNUE[]," (", mu * mol %.% g^{-1} %.% s^{-1} , ")")))+
-  facet_grid(.~species)+
-  themeopts +
-  theme(strip.text.x = element_text(face = "italic")) +
-  theme(legend.position="none")+
-  panel_border(colour="black")+
-  scale_x_discrete(name=NULL,limits=c("O-L","H-L","H-S"))
-
-ggsave("pnue.png", dpi=600)
-
-# data for table 1
-
-tab1 <- allM %>% select(species, nTreatment, order, climateF, PNUE,PNUESD, N,Nsd, 
-                        dr, drSD) 
-
-write.csv(tab1,"table1.csv")
