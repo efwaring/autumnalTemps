@@ -1,0 +1,2 @@
+indi,spp,site,rep,date,month,place,chl,nr.hr.chl,ce,amba,vcmax,jmax,mgcl2.min,mgcl2.hr,edta.min,edta.hr,ug/mL_pr,ug/gfw_pr,wt.g,area.mm2,area.cm2,SLA,LMA,totC,C13,totN
+,,,,,,,mg/g,umol NR/hr/mg chl,umol co2/m2/s,umol co2/m2/s,umol co2/m2/s,umol co2/m2/s,umol nr/min,umol nr/hr,umol nr/min,umol nr/hr,,,,,,cm^2/g,g/cm^2,cg/g,,cg/g
