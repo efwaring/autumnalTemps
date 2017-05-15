@@ -191,9 +191,7 @@ dr= ggplot(allM, aes(climateF, dr, shape=order, fill=order,
   theme(legend.position="none")+
   panel_border(colour="black")+
   scale_x_discrete(name=NULL,limits=c("O-L","H-L","H-S"))
-# figures
-source("theme-opts.r")
-source("multiplot.r")
+
 
 multiplot(qe, dr, amb, cols=2)
 
@@ -207,8 +205,7 @@ vcmax <- ggplot(allM, aes(climateF, vc, shape=order, fill=order,
   scale_fill_manual(values=c("black",NA,"gray50"))+
   scale_shape_manual(values=c(21,22,23))+
   scale_linetype_manual(values=c(1,2,3))+
-  scale_y_continuous(expression(V[cmax] ~ ( mu * mol %.% m^{-2}
-                                            %.% s^{-1} ) ) )  +
+  scale_y_continuous(expression(log[10] ~ V[cmax] ~ ( mu * mol %.% m^{-2} %.% s^{-1} ) ) )  +
   facet_grid(.~species)+
   themeopts +
   theme(strip.text.x = element_text(face = "italic")) +
@@ -226,7 +223,7 @@ jmax <- ggplot(allM, aes(climateF, j, shape=order, fill=order,
   scale_fill_manual(values=c("black",NA,"gray50"))+
   scale_shape_manual(values=c(21,22,23))+
   scale_linetype_manual(values=c(1,2,3))+
-  scale_y_continuous(expression(J[max] ~ ( mu * mol %.% m^{-2}
+  scale_y_continuous(expression(log[10] ~ J[max] ~ ( mu * mol %.% m^{-2}
                                             %.% s^{-1} ) ) )  +
   facet_grid(.~species)+
   themeopts +
@@ -244,7 +241,7 @@ leafN <- ggplot(allM, aes(climateF, N, shape=order, fill=order,
   scale_fill_manual(values=c("black",NA,"gray50"))+
   scale_shape_manual(values=c(21,22,23))+
   scale_linetype_manual(values=c(1,2,3))+
-  labs(y=expression(paste("Leaf N"," (",cg %.% g^{-1}, ")")))+
+  labs(y=expression(paste(log[10], " Leaf N"," (",cg %.% g^{-1}, ")")))+
   facet_grid(.~species)+
   themeopts +
   theme(strip.text.x = element_text(face = "italic")) +
