@@ -1,0 +1,11 @@
+varible,type,units,description,,,,,,,,,,,,,,,,,,,,,,,
+indi,string,,"The specific tagged plant that data were collected from 3 times that year, one collection per season.  Tagged for nesting in statistical analysis",,,,,,,,,,,,,,,,,,,cm^2/g,g/cm^2,cg/g,,cg/g
+spp,string,,"Which species this individual was.  Pa = Phalaris arundinacea, Cs = Carex stricta",,,,,,,,,,,,,,,,,,,,,,,
+location,string,,"Code for the location in IN, only one location was used for this study",,,,,,,,,,,,,,,,,,,,,,,
+site,numeric,,"Site 1 was mostly Pa while Site 2 was mostly Cs, there were no site effects in this study",,,,,,,,,,,,,,,,,,,,,,,
+date,numeric,,The numeric day of the year that the data were collected on,,,,,,,,,,,,,,,,,,,,,,,
+month,numeric,,"The month of the year data were collected on 5= May, 7=July, 10= October",,,,,,,,,,,,,,,,,,,,,,,
+amba,numeric,umol /m2/s,The rate of CO2 assmilation at ambient (400 ppm) CO2 levels.  Measured with a LiCor-6400XT,,,,,,,,,,,,,,,,,,,,,,,
+vcmax,numeric,umol /m2/s,The maximum rate of carboxylation by Rubisco calculated from Li6400XT data using the Plantecophys package in R,,,,,,,,,,,,,,,,,,,,,,,
+jmax,numeric,umol /m2/s,The maximum rate of light-saturated electron transport calculated from Li6400XT data using the Plantecophys package in R,,,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,, ,,,,,,,,,,,,,,,,,,

@@ -1,0 +1,12 @@
+varible,type,units,description
+genotype,string,,The genticially individual distinct plant that was propogated three times for the N treatments
+spp,string,,"Species measured, Pa= Phalaris arudinacea, Cs = Carex stricta"
+nTreatment,string,,"The N treatment applied, high = 15 mMol N Hoagland's soln, med = 3.0 mMol N Hoagland's soln, and low = 0.15 mMol N Hoagland's soln"
+temp,numeric,degrees Celsius,Daily Max temperature for the growth chamber on day of data collection
+phoper,numeric,hours,Length of photoperiod on day of data collection
+aamb,numeric,umol/m^2/s,The rate of CO2 assmilation at ambient (400 ppm) CO2 levels.  Measured with a LiCor-6400XT
+Rd,numeric,umol/m^2/s,The rate of dark respiration (mitocondrial respiration) at ambient (400 ppm) CO2 levels.  Measured with a LiCor-6400XT
+jmax,numeric,umol/m^2/s,The maximum rate of light-saturated electron transport calculated from Li6400XT data using the Plantecophys package in R
+Nitrogen,numeric,cg N/g dried tissue,The amount of N in dried leaf tissue on a per mass basis
+netqe,numeric,umol CO2/umol photons,"the efficiency of photon use in CO2 assimilation calculated using the initial slope of A at PFDs of 0, 25, and 50 µmol m-2 s-1"
+vcmax,numeric,umol/m^2/s,The maximum rate of carboxylation by Rubisco calculated from Li6400XT data using the Plantecophys package in R
