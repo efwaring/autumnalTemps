@@ -1,4 +1,4 @@
-varible,type,units,description,,,,,,,,,,,,,,,,,,,,,,,
+field name,type,units,description,,,,,,,,,,,,,,,,,,,,,,,
 indi,string,,"The specific tagged plant that data were collected from 3 times that year, one collection per season.  Tagged for nesting in statistical analysis",,,,,,,,,,,,,,,,,,,cm^2/g,g/cm^2,cg/g,,cg/g
 spp,string,,"Which species this individual was.  Pa = Phalaris arundinacea, Cs = Carex stricta",,,,,,,,,,,,,,,,,,,,,,,
 location,string,,"Code for the location in IN, only one location was used for this study",,,,,,,,,,,,,,,,,,,,,,,

@@ -1,4 +1,4 @@
-varible,type,units,description
+field name,type,units,description
 genotype,string,,The genticially individual distinct plant that was propogated three times for the N treatments
 spp,string,,"Species measured, Pa= Phalaris arudinacea, Cs = Carex stricta"
 nTreatment,string,,"The N treatment applied, high = 15 mMol N Hoagland's soln, med = 3.0 mMol N Hoagland's soln, and low = 0.15 mMol N Hoagland's soln"
