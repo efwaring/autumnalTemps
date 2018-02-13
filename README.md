@@ -1,7 +1,3 @@
 # autumnalTemps
-Repo for code from Elizabeth Waring's dissertation work on Phalaris and Carex under different nitrogen treatments in a growth chamber as well as changes through the growing season in IN in 2012
-
-All growth chamber data in GCdata.csv and file with metadata explained in GCmetadata.csv
-All field data is in 
-
+Repo for code from Elizabeth Waring and Scott Holaday's paper "Rise in growth temperatures and nitrogen availability may reduce the gap in carbon gain and structural leaf traits between an invasive and a native wetland species." published in the American Journal of Botany in 2017. DOI:10.3732/ajb.1600339
 
